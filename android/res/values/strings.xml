@@ -6,5 +6,7 @@
     <string name="apply">apply</string>
     <string name="success">success</string>
     <string name="fail">fail</string>
+    <string name="root">root</string>
+    <string name="non">non-root</string>
 
 </resources>

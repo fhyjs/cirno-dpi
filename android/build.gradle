@@ -17,6 +17,9 @@ android {
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
+    dexOptions {
+
+    }
     defaultConfig {
         applicationId "org.eu.hanana.cirno.box"
         minSdkVersion 16

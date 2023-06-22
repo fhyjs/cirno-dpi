@@ -5,4 +5,6 @@
     <string name="apply">应用</string>
     <string name="success">成功</string>
     <string name="fail">失败</string>
+    <string name="root">使用root</string>
+    <string name="non">免root</string>
 </resources>
