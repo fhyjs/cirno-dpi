@@ -132,7 +132,7 @@ public class CirnoMain extends ApplicationAdapter {
 		isroot=root.isChecked();
 		ScreenUtils.clear(1, 0, 0, 1);
 		try {
-			tip_root.setText(platformSpecificCode.getStringResource(isroot?"root":"non"));
+			tip_root.setText(platformSpecificCode.getStringResource("current")+":"+platformSpecificCode.getStringResource(isroot?"root":"non"));
 			cdpi.setText(platformSpecificCode.getStringResource("current")+":"+ slider.getValue());
 		} catch (NoSuchFieldException e) {
 			throw new RuntimeException(e);
