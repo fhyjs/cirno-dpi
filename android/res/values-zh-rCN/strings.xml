@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HANANA®DPI调节</string>
+    <string name="current">当前</string>
+    <string name="apply">应用</string>
+    <string name="success">成功</string>
+    <string name="fail">失败</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GDX_cirnoDpi</string>
+    <string name="current">current</string>
+    <string name="apply">apply</string>
+    <string name="success">success</string>
+    <string name="fail">fail</string>
+
+</resources>
