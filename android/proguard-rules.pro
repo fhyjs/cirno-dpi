@@ -25,6 +25,12 @@
 
 # Required if using Gdx-Controllers extension
 -keep class com.badlogic.gdx.controllers.android.AndroidControllers
+# 保留 libgdx 相关类不被混淆
+-keep class com.badlogic.gdx.** { *; }
+# 保留 vis 相关类不被混淆
+-keep class com.kotcrab.vis.ui.** { *; }
+-dontwarn com.apple.eio.FileManager
+-keep class org.eu.hanana.cirno.box.** { *; }
 
 # Required if using Box2D extension
 -keepclassmembers class com.badlogic.gdx.physics.box2d.World {

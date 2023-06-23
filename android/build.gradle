@@ -17,8 +17,13 @@ android {
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
-    dexOptions {
-
+    signingConfigs {
+        release {
+            storeFile file("C:\\Users\\a\\hanana.jks")
+            storePassword '12345678q'
+            keyAlias 'hananaapps'
+            keyPassword '12345678q'
+        }
     }
     defaultConfig {
         applicationId "org.eu.hanana.cirno.box"
@@ -29,12 +34,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            signingConfig signingConfigs.release
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
-
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
