@@ -3,6 +3,7 @@ package org.eu.hanana.cirno.box;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -42,9 +43,11 @@ public class CirnoMain extends ApplicationAdapter {
 		created=false;
 	}
 	public boolean isroot;
+	Texture bgi;
 	@Override
 	public void create () {
 		if (created) return;
+		bgi=new Texture("cirno.png");
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		VisUI.load(new Skin(Gdx.files.internal("skin/x2/uiskin.json")));
 		slider = new Slider(0, 1, 1, false, skin);
@@ -138,8 +141,12 @@ public class CirnoMain extends ApplicationAdapter {
 	}
 	@Override
 	public void render () {
+		ScreenUtils.clear(0.1f, 1, 0.1f, 1);
+		batch.begin();
+		batch.setColor(1,1,1,0.5f);
+		batch.draw(bgi,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		batch.end();
 		isroot=root.isChecked();
-		ScreenUtils.clear(1, 0, 0, 1);
 		try {
 			tip_root.setText(platformSpecificCode.getStringResource("current")+":"+platformSpecificCode.getStringResource(isroot?"root":"non"));
 			cdpi.setText(platformSpecificCode.getStringResource("current")+":"+ slider.getValue());
@@ -157,5 +164,6 @@ public class CirnoMain extends ApplicationAdapter {
 		VisUI.dispose();
 		batch.dispose();
 		stage.dispose();
+		bgi.dispose();
 	}
 }
