@@ -10,7 +10,9 @@ import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.AndroidAudio;
@@ -58,6 +60,7 @@ public class AndroidLauncher extends AndroidApplication implements PlatformSpeci
 			// 在授权失败时，不要执行敏感的wm命令
 			requestWriteSettingsPermission(getApplicationContext());
 		}
+		Toast.makeText(getApplicationContext(),R.string.loading,Toast.LENGTH_SHORT).show();
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new CirnoMain(this), config);
 	}
@@ -79,8 +82,8 @@ public class AndroidLauncher extends AndroidApplication implements PlatformSpeci
 	}
 	@Override
 	protected void onDestroy() {
+		Gdx.app.getApplicationListener().dispose();
 		super.onDestroy();
-
 	}
 
 }

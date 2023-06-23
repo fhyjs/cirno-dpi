@@ -7,4 +7,5 @@
     <string name="fail">失败</string>
     <string name="root">使用root</string>
     <string name="non">免root</string>
+    <string name="loading">加载中...</string>
 </resources>

@@ -8,5 +8,6 @@
     <string name="fail">fail</string>
     <string name="root">root</string>
     <string name="non">non-root</string>
+    <string name="loading">Loading...</string>
 
 </resources>

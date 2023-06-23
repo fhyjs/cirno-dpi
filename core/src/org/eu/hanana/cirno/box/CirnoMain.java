@@ -39,10 +39,12 @@ public class CirnoMain extends ApplicationAdapter {
 	Label tip_root;
 	public CirnoMain(PlatformSpecificCode platformSpecificCode){
 		this.platformSpecificCode = platformSpecificCode;
+		created=false;
 	}
 	public boolean isroot;
 	@Override
 	public void create () {
+		if (created) return;
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		VisUI.load(new Skin(Gdx.files.internal("skin/x2/uiskin.json")));
 		slider = new Slider(0, 1, 1, false, skin);
@@ -53,8 +55,8 @@ public class CirnoMain extends ApplicationAdapter {
 		table.setFillParent(true);
 		Button add=new Button(skin);
 		Button minus=new Button(skin);
-		add.add(new Label("+",skin)).width(20);
-		minus.add(new Label("-",skin)).width(20);
+		add.add(new Label("+10",skin));
+		minus.add(new Label("-10",skin));
 		table.add(add);
 		table.row();
 		table.add(minus);
@@ -93,7 +95,12 @@ public class CirnoMain extends ApplicationAdapter {
 			public void clicked(InputEvent event, float x, float y) {
 				if (isroot) {
 					// 按钮点击事件处理逻辑
-					ExecResult result = platformSpecificCode.executeShellCmd("su","wm density " + (int) slider.getValue());
+					ExecResult result = null;
+					try {
+						result = platformSpecificCode.executeShellCmd("su","wm density " + (int) slider.getValue());
+					}catch (Throwable e){
+						e.printStackTrace();
+					}
 					VisDialog dialog;
 					try {
 						dialog = Dialogs.showOKDialog(stage, ((result.success && !result.error) ? platformSpecificCode.getStringResource("success") : platformSpecificCode.getStringResource("fail")) + ":" + result.exitCode, result.output);
@@ -121,7 +128,9 @@ public class CirnoMain extends ApplicationAdapter {
 		tip_root=new Label("",skin);
 		root.add(tip_root);
 		stage.addActor(table);
+		created=true;
 	}
+	boolean created;
 	public void init(){
 		int dpi=platformSpecificCode.getDeviceDpi();
 		slider.setRange(dpi-50,dpi+50);
