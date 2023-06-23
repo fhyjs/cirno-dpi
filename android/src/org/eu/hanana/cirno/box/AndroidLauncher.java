@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -82,6 +83,7 @@ public class AndroidLauncher extends AndroidApplication implements PlatformSpeci
 	}
 	@Override
 	protected void onDestroy() {
+		((CirnoMain) Gdx.app.getApplicationListener()).disposed=true;
 		Gdx.app.getApplicationListener().dispose();
 		super.onDestroy();
 	}

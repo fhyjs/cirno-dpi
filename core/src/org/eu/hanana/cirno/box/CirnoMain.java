@@ -41,6 +41,7 @@ public class CirnoMain extends ApplicationAdapter {
 	public CirnoMain(PlatformSpecificCode platformSpecificCode){
 		this.platformSpecificCode = platformSpecificCode;
 		created=false;
+		disposed=false;
 	}
 	public boolean isroot;
 	Texture bgi;
@@ -98,29 +99,29 @@ public class CirnoMain extends ApplicationAdapter {
 			public void clicked(InputEvent event, float x, float y) {
 				if (isroot) {
 					// 按钮点击事件处理逻辑
-					ExecResult result = null;
 					try {
-						result = platformSpecificCode.executeShellCmd("su","wm density " + (int) slider.getValue());
+						new runcmd("su", "wm density " + (int) slider.getValue(), execResult -> {
+							VisDialog dialog;
+							try {
+								dialog = Dialogs.showOKDialog(stage, ((execResult.success && !execResult.error) ? platformSpecificCode.getStringResource("success") : platformSpecificCode.getStringResource("fail")) + ":" + execResult.exitCode, execResult.output);
+								dialog.setSkin(skin);
+								platformSpecificCode.log(3, CirnoMain.class.getName(), execResult.output);
+							} catch (NoSuchFieldException e) {
+								throw new RuntimeException(e);
+							} catch (IllegalAccessException e) {
+								throw new RuntimeException(e);
+							}
+							Timer.schedule(new Timer.Task() {
+								@Override
+								public void run() {
+									dialog.hide(); // 关闭对话框
+									init();
+								}
+							}, 2f);
+						}).start();
 					}catch (Throwable e){
 						e.printStackTrace();
 					}
-					VisDialog dialog;
-					try {
-						dialog = Dialogs.showOKDialog(stage, ((result.success && !result.error) ? platformSpecificCode.getStringResource("success") : platformSpecificCode.getStringResource("fail")) + ":" + result.exitCode, result.output);
-						dialog.setSkin(skin);
-						platformSpecificCode.log(3, CirnoMain.class.getName(), result.output);
-					} catch (NoSuchFieldException e) {
-						throw new RuntimeException(e);
-					} catch (IllegalAccessException e) {
-						throw new RuntimeException(e);
-					}
-					Timer.schedule(new Timer.Task() {
-						@Override
-						public void run() {
-							dialog.hide(); // 关闭对话框
-							init();
-						}
-					}, 1f);
 				}
 			}
 		});
@@ -158,11 +159,34 @@ public class CirnoMain extends ApplicationAdapter {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
-	
+	public boolean disposed;
 	@Override
 	public void dispose () {
+		if (disposed) return;
+		batch.dispose();
+		stage.dispose();
 		VisUI.dispose();
 		bgi.dispose();
 		skin.dispose();
+	}
+	private class runcmd extends Thread{
+		private final Callback callback;
+		String base,cmd;
+		private ExecResult result;
+
+		public runcmd(String base,String cmd,Callback callback){
+			super();
+			this.base=base;
+			this.cmd=cmd;
+			this.callback=callback;
+		}
+		@Override
+		public void run() {
+			result=platformSpecificCode.executeShellCmd(base,cmd);
+			callback.onCmdRunOk(result);
+		}
+		public ExecResult getResult() {
+			return result;
+		}
 	}
 }
