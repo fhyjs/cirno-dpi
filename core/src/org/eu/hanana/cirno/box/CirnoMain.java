@@ -162,8 +162,7 @@ public class CirnoMain extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		VisUI.dispose();
-		batch.dispose();
-		stage.dispose();
 		bgi.dispose();
+		skin.dispose();
 	}
 }
